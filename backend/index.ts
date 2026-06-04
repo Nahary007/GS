@@ -15,6 +15,7 @@ app.use(express.json());
 import authRoutes from "./routes/authRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
 import supplierRoutes from "./routes/supplierRoutes";
+import productRoutes from "./routes/productRoutes";
 
 // Global Error Handler Middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -26,6 +27,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/suppliers", supplierRoutes);
+app.use("/api/products", productRoutes);
 
 AppDataSource.initialize()
     .then(() => {
