@@ -1,0 +1,10 @@
+{
+	"id": 0,
+	"username": "echo api",
+	"firstName": "Echo",
+	"lastName": "Api",
+	"email": "support@echoapi.com",
+	"password": "12345",
+	"phone": "",
+	"userStatus": 0
+}

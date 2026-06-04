@@ -12,7 +12,7 @@ const authenticateToken = (req, res, next) => {
         res.status(401).json({ message: "Accès non autorisé" });
         return;
     }
-    jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, (err, user) => {
+    jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET || "secret", (err, user) => {
         if (err) {
             res.status(403).json({ message: "Token invalide ou expiré" });
             return;

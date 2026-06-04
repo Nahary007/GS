@@ -16,7 +16,7 @@ const Products: React.FC = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState<number>(0);
-  const [minQuantity, setMinQuantity] = useState<number>(10);
+  const [quantity, setQuantity] = useState<number>(0);
   const [categoryId, setCategoryId] = useState<number | ''>('');
   const [supplierId, setSupplierId] = useState<number | ''>('');
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -38,7 +38,7 @@ const Products: React.FC = () => {
     e.preventDefault();
     if (!categoryId || !supplierId) return alert("Veuillez sélectionner une catégorie et un fournisseur.");
     try {
-      const payload = { name, description, price, minQuantity, categoryId, supplierId };
+      const payload = { name, description, price, quantity, categoryId, supplierId };
       if (editingId) await api.put(`/api/products/${editingId}`, payload);
       else await api.post('/api/products', payload);
       resetForm(); fetchData();
@@ -47,7 +47,7 @@ const Products: React.FC = () => {
 
   const handleEdit = (product: Product) => {
     setEditingId(product.id); setName(product.name); setDescription(product.description || '');
-    setPrice(product.price); setMinQuantity(product.minQuantity);
+    setPrice(product.price); setQuantity(product.quantity);
     setCategoryId(product.category?.id || ''); setSupplierId(product.supplier?.id || '');
   };
 
@@ -58,7 +58,7 @@ const Products: React.FC = () => {
   };
 
   const resetForm = () => {
-    setEditingId(null); setName(''); setDescription(''); setPrice(0); setMinQuantity(10); setCategoryId(''); setSupplierId('');
+    setEditingId(null); setName(''); setDescription(''); setPrice(0); setQuantity(0); setCategoryId(''); setSupplierId('');
   };
 
   return (
@@ -74,8 +74,8 @@ const Products: React.FC = () => {
           <input type="number" step="0.01" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} required className="w-full border p-2 rounded" />
         </div>
         <div>
-          <label className="block text-sm font-medium">Quantité d'alerte</label>
-          <input type="number" value={minQuantity} onChange={(e) => setMinQuantity(parseInt(e.target.value))} required className="w-full border p-2 rounded" />
+          <label className="block text-sm font-medium">Stock</label>
+          <input type="number" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} required className="w-full border p-2 rounded" />
         </div>
         <div>
           <label className="block text-sm font-medium">Catégorie</label>

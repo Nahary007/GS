@@ -33,7 +33,7 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
 
 export const createProduct = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { name, description, price, minQuantity, categoryId, supplierId } = req.body;
+        const { name, description, price, quantity, minQuantity, categoryId, supplierId } = req.body;
         
         const category = await categoryRepository.findOneBy({ id: categoryId });
         const supplier = await supplierRepository.findOneBy({ id: supplierId });
@@ -47,7 +47,8 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
             name,
             description,
             price,
-            minQuantity: minQuantity || 10,
+            quantity: quantity !== undefined ? quantity : 0,
+            minQuantity: minQuantity !== undefined ? minQuantity : 10,
             category,
             supplier
         });

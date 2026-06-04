@@ -35,7 +35,7 @@ const getProductById = async (req, res) => {
 exports.getProductById = getProductById;
 const createProduct = async (req, res) => {
     try {
-        const { name, description, price, minQuantity, categoryId, supplierId } = req.body;
+        const { name, description, price, quantity, minQuantity, categoryId, supplierId } = req.body;
         const category = await categoryRepository.findOneBy({ id: categoryId });
         const supplier = await supplierRepository.findOneBy({ id: supplierId });
         if (!category || !supplier) {
@@ -46,7 +46,8 @@ const createProduct = async (req, res) => {
             name,
             description,
             price,
-            minQuantity: minQuantity || 10,
+            quantity: quantity !== undefined ? quantity : 0,
+            minQuantity: minQuantity !== undefined ? minQuantity : 10,
             category,
             supplier
         });
