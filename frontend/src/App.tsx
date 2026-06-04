@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import Categories from './pages/Categories';
+import Suppliers from './pages/Suppliers';
 
 function Header() {
   const { user, logout } = useAuth();
@@ -13,6 +14,7 @@ function Header() {
         <nav className="flex items-center gap-4">
           <Link to="/dashboard" className="text-gray-600 hover:text-primary">Dashboard</Link>
           <Link to="/categories" className="text-gray-600 hover:text-primary">Catégories</Link>
+          <Link to="/suppliers" className="text-gray-600 hover:text-primary">Fournisseurs</Link>
           <button onClick={logout} className="text-red-500 hover:text-red-700 ml-4">Déconnexion</button>
         </nav>
       )}
@@ -35,6 +37,7 @@ function App() {
                 <Route path="/" element={<p>Tableau de bord (Protégé)</p>} />
                 <Route path="/dashboard" element={<p>Tableau de bord (Protégé)</p>} />
                 <Route path="/categories" element={<Categories />} />
+                <Route path="/suppliers" element={<Suppliers />} />
               </Route>
             </Routes>
           </main>
