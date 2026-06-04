@@ -17,6 +17,7 @@ import categoryRoutes from "./routes/categoryRoutes";
 import supplierRoutes from "./routes/supplierRoutes";
 import productRoutes from "./routes/productRoutes";
 import stockRoutes from "./routes/stockRoutes";
+import dashboardRoutes from "./routes/dashboardRoutes";
 
 // Global Error Handler Middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -30,6 +31,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/suppliers", supplierRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/stocks", stockRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 AppDataSource.initialize()
     .then(() => {

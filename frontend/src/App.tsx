@@ -6,6 +6,7 @@ import Categories from './pages/Categories';
 import Suppliers from './pages/Suppliers';
 import Products from './pages/Products';
 import StockMovements from './pages/StockMovements';
+import Dashboard from './pages/Dashboard';
 
 function Header() {
   const { user, logout } = useAuth();
@@ -38,8 +39,8 @@ function App() {
               <Route path="/unauthorized" element={<div>Accès refusé</div>} />
               
               <Route element={<ProtectedRoute />}>
-                <Route path="/" element={<p>Tableau de bord (Protégé)</p>} />
-                <Route path="/dashboard" element={<p>Tableau de bord (Protégé)</p>} />
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/categories" element={<Categories />} />
                 <Route path="/suppliers" element={<Suppliers />} />
                 <Route path="/products" element={<Products />} />
