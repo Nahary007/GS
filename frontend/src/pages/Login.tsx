@@ -45,30 +45,30 @@ const Login: React.FC = () => {
   return (
     <div className="fixed inset-0 w-full h-full flex items-center justify-center bg-[#0B0C0E] overflow-hidden font-sans z-50">
       <div className="w-full max-w-sm px-6">
-        
+
         {/* Brand Header */}
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-semibold text-white tracking-tight">GS</h2>
+          <h2 className="text-2xl font-semibold text-white tracking-tight">GestionStock</h2>
           <p className="text-slate-400 text-xs mt-1 font-light">Gestion professionnelle d'inventaire</p>
         </div>
 
         {/* Form panel */}
         <div className="bg-[#13151A] border border-slate-900 px-6 py-8 rounded-2xl shadow-xl">
           <form onSubmit={handleSubmit} className="space-y-5">
-            
+
             {/* Email Field */}
             <div className="space-y-1">
               <label className="block text-[10px] font-semibold text-slate-400 uppercase tracking-widest" htmlFor="email">
                 Adresse email
               </label>
-              <input 
-                type="email" 
+              <input
+                type="email"
                 id="email"
                 placeholder="nom@entreprise.com"
                 className="w-full px-3.5 py-2.5 bg-[#0B0C0E] border border-slate-800 focus:border-slate-400 rounded-xl text-slate-100 placeholder-slate-600 focus:outline-none transition-colors text-sm font-light"
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
-                required 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
 
@@ -77,14 +77,14 @@ const Login: React.FC = () => {
               <label className="block text-[10px] font-semibold text-slate-400 uppercase tracking-widest" htmlFor="password">
                 Mot de passe
               </label>
-              <input 
-                type="password" 
+              <input
+                type="password"
                 id="password"
                 placeholder="••••••••"
                 className="w-full px-3.5 py-2.5 bg-[#0B0C0E] border border-slate-800 focus:border-slate-400 rounded-xl text-slate-100 placeholder-slate-600 focus:outline-none transition-colors text-sm font-light"
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-                required 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
 
@@ -97,7 +97,7 @@ const Login: React.FC = () => {
             )}
 
             {/* Submit Button */}
-            <button 
+            <button
               type="submit"
               disabled={isSubmitting}
               className="w-full bg-white hover:bg-slate-100 active:bg-slate-200 text-[#0B0C0E] rounded-xl font-medium text-xs py-2.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"

@@ -8,15 +8,15 @@ import Suppliers from './pages/Suppliers';
 import Products from './pages/Products';
 import StockMovements from './pages/StockMovements';
 import Dashboard from './pages/Dashboard';
-import { 
-  LayoutDashboard, 
-  FolderKanban, 
-  Users, 
-  Package, 
-  ArrowUpDown, 
-  LogOut, 
-  Menu, 
-  X, 
+import {
+  LayoutDashboard,
+  FolderKanban,
+  Users,
+  Package,
+  ArrowUpDown,
+  LogOut,
+  Menu,
+  X,
   User as UserIcon
 } from 'lucide-react';
 
@@ -42,11 +42,11 @@ function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-white flex flex-col md:flex-row text-slate-800">
-      
+
       {/* Mobile Top Bar */}
       <header className="md:hidden flex items-center justify-between bg-[#0B0C0E] text-white px-6 py-4 sticky top-0 z-30 border-b border-slate-800/40">
-        <span className="font-medium text-base tracking-tight">StockPro</span>
-        <button 
+        <span className="font-medium text-base tracking-tight">GestionStock</span>
+        <button
           onClick={toggleMobileMenu}
           className="p-2 text-slate-400 hover:text-white rounded-lg transition-colors focus:outline-none"
           aria-label="Toggle menu"
@@ -57,7 +57,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Mobile Nav Drawer Overlay */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           className="md:hidden fixed inset-0 bg-slate-900/20 backdrop-blur-xs z-40 transition-opacity duration-300"
           onClick={closeMobileMenu}
         />
@@ -69,7 +69,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="p-6 border-b border-slate-900 flex items-center justify-between">
-          <span className="font-semibold text-lg tracking-tight">StockPro</span>
+          <span className="font-semibold text-lg tracking-tight">GestionStock</span>
           <button onClick={closeMobileMenu} className="p-1 text-slate-400 hover:text-white rounded-lg">
             <X size={18} />
           </button>
@@ -86,8 +86,8 @@ function Layout({ children }: { children: React.ReactNode }) {
                 onClick={closeMobileMenu}
                 className={`
                   flex items-center gap-3 px-4 py-3 rounded-lg font-light text-sm transition-all
-                  ${isActive 
-                    ? 'bg-white/10 text-white font-normal' 
+                  ${isActive
+                    ? 'bg-white/10 text-white font-normal'
                     : 'text-slate-400 hover:text-white hover:bg-white/5'}
                 `}
               >
@@ -109,7 +109,7 @@ function Layout({ children }: { children: React.ReactNode }) {
               <span className="text-[10px] text-slate-500 capitalize">{user.role}</span>
             </div>
           </div>
-          <button 
+          <button
             onClick={() => { logout(); closeMobileMenu(); }}
             className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white/5 hover:bg-red-500/10 hover:text-red-400 text-xs transition-all border border-slate-800"
           >
@@ -122,7 +122,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       {/* Desktop Sidebar (Ultra clean Linear-style) */}
       <aside className="hidden md:flex flex-col w-60 bg-[#0B0C0E] text-white h-screen sticky top-0 overflow-y-auto z-20 border-r border-slate-950 shrink-0">
         <div className="p-6 border-b border-slate-900 flex items-center gap-3">
-          <span className="font-semibold text-lg tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">StockPro</span>
+          <span className="font-semibold text-lg tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">GestionStock</span>
         </div>
 
         <nav className="flex-1 px-3 py-6 space-y-1">
@@ -135,8 +135,8 @@ function Layout({ children }: { children: React.ReactNode }) {
                 to={item.path}
                 className={`
                   flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-light transition-all
-                  ${isActive 
-                    ? 'bg-white/10 text-white font-medium shadow-inner' 
+                  ${isActive
+                    ? 'bg-white/10 text-white font-medium shadow-inner'
                     : 'text-slate-400 hover:text-white hover:bg-white/5'}
                 `}
               >
@@ -158,7 +158,7 @@ function Layout({ children }: { children: React.ReactNode }) {
               <span className="text-[10px] text-slate-500 capitalize">{user.role}</span>
             </div>
           </div>
-          <button 
+          <button
             onClick={logout}
             className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-white/5 hover:bg-red-500/10 hover:text-red-400 text-[11px] transition-all border border-slate-900 hover:border-red-950/50"
           >
@@ -204,7 +204,7 @@ function App() {
                 <p className="text-slate-500 text-sm">Vous n'avez pas les autorisations nécessaires pour accéder à cette page.</p>
               </div>
             } />
-            
+
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
