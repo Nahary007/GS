@@ -3,6 +3,7 @@ import { AppDataSource } from "../config/data-source";
 import { Product } from "../models/Product";
 import { Category } from "../models/Category";
 import { Supplier } from "../models/Supplier";
+import { StockMovement } from "../models/StockMovement";
 
 const productRepository = AppDataSource.getRepository(Product);
 const categoryRepository = AppDataSource.getRepository(Category);
@@ -92,6 +93,11 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
 export const deleteProduct = async (req: Request, res: Response): Promise<void> => {
     try {
         const id = parseInt(req.params.id as string);
+        
+        // Delete related stock movements first
+        const stockRepository = AppDataSource.getRepository(StockMovement);
+        await stockRepository.delete({ product: { id } });
+
         const result = await productRepository.delete(id);
         if (result.affected === 0) {
             res.status(404).json({ message: "Produit non trouvé" });
@@ -99,6 +105,7 @@ export const deleteProduct = async (req: Request, res: Response): Promise<void> 
         }
         res.json({ message: "Produit supprimé avec succès" });
     } catch (error) {
+        console.error("Error deleting product:", error);
         res.status(500).json({ message: "Erreur serveur" });
     }
 };
