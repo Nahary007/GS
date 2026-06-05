@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
+import ConfirmModal from '../components/ConfirmModal';
 import {
   Plus,
   Search,
@@ -39,6 +40,14 @@ const Products: React.FC = () => {
   // UI Panels state
   const [isFormOpen, setIsFormOpen] = useState(false);
 
+  // Confirm delete modal state
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState<number | null>(null);
+
+  // Confirm edit modal state
+  const [confirmEditOpen, setConfirmEditOpen] = useState(false);
+  const [pendingSave, setPendingSave] = useState<(() => Promise<void>) | null>(null);
+
   // Filter & Search states
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<number | ''>('');
@@ -69,14 +78,24 @@ const Products: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!categoryId || !supplierId) return alert("Veuillez sélectionner une catégorie et un fournisseur.");
-    try {
-      const payload = { name, description, price, quantity, categoryId, supplierId };
-      if (editingId) await api.put(`/api/products/${editingId}`, payload);
-      else await api.post('/api/products', payload);
-      resetForm();
-      fetchData();
-    } catch (error) {
-      console.error('Failed to save product', error);
+
+    const doSave = async () => {
+      try {
+        const payload = { name, description, price, quantity, categoryId, supplierId };
+        if (editingId) await api.put(`/api/products/${editingId}`, payload);
+        else await api.post('/api/products', payload);
+        resetForm();
+        fetchData();
+      } catch (error) {
+        console.error('Failed to save product', error);
+      }
+    };
+
+    if (editingId) {
+      setPendingSave(() => doSave);
+      setConfirmEditOpen(true);
+    } else {
+      await doSave();
     }
   };
 
@@ -91,13 +110,20 @@ const Products: React.FC = () => {
     setIsFormOpen(true);
   };
 
-  const handleDelete = async (id: number) => {
-    if (!window.confirm('Voulez-vous supprimer ce produit ?')) return;
+  const handleDelete = (id: number) => {
+    setProductToDelete(id);
+    setConfirmOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (productToDelete === null) return;
     try {
-      await api.delete(`/api/products/${id}`);
+      await api.delete(`/api/products/${productToDelete}`);
       fetchData();
     } catch (error) {
       console.error('Failed to delete product', error);
+    } finally {
+      setProductToDelete(null);
     }
   };
 
@@ -136,6 +162,28 @@ const Products: React.FC = () => {
 
   return (
     <div className="space-y-10 animate-fade-in relative pb-16">
+
+      {/* Confirm Delete Modal */}
+      <ConfirmModal
+        isOpen={confirmOpen}
+        onClose={() => { setConfirmOpen(false); setProductToDelete(null); }}
+        onConfirm={confirmDelete}
+        title="Supprimer le produit"
+        message="Cette action est irréversible. Le produit sera définitivement supprimé du catalogue."
+        confirmLabel="Supprimer"
+        variant="danger"
+      />
+
+      {/* Confirm Edit Modal */}
+      <ConfirmModal
+        isOpen={confirmEditOpen}
+        onClose={() => { setConfirmEditOpen(false); setPendingSave(null); }}
+        onConfirm={async () => { if (pendingSave) await pendingSave(); }}
+        title="Modifier le produit ?"
+        message={`Voulez-vous enregistrer les modifications apportées à ce produit ?`}
+        confirmLabel="Modifier"
+        variant="warning"
+      />
 
       {/* Top action bar */}
       <div className="pb-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
@@ -197,11 +245,11 @@ const Products: React.FC = () => {
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-slate-900/10 backdrop-blur-xs z-40 transition-opacity duration-300 animate-fade-in"
+            className="fixed inset-0 h-[100vh] bg-slate-900/10 backdrop-blur-xs z-40 transition-opacity duration-300 animate-fade-in"
             onClick={resetForm}
           />
           {/* Drawer Container */}
-          <aside className="fixed inset-y-0 right-0 w-full max-w-md bg-white z-50 flex flex-col shadow-2xl border-l border-slate-100 animate-slide-up md:animate-none md:translate-x-0 transition-transform duration-300">
+          <aside className="fixed inset-y-0 right-0 h-[100vh] w-full max-w-md bg-white z-50 flex flex-col shadow-2xl border-l border-slate-100 animate-slide-up md:animate-none md:translate-x-0 transition-transform duration-300">
             <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/20">
               <div>
                 <h3 className="font-semibold text-slate-800 text-sm">{editingId ? 'Modifier le produit' : 'Nouveau produit'}</h3>
